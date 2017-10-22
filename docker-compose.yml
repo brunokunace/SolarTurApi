@@ -1,0 +1,27 @@
+# v2 syntax
+version: '2'
+
+services:
+
+  mysql-salinopolis:
+    image: ambientum/mysql:5.7
+    container_name: mysql-salinopolis
+    volumes:
+      - ./.docker/mysql:/var/lib/mysql
+    ports:
+      - "3392:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=salinopolis
+      - MYSQL_DATABASE=salinopolis
+      - MYSQL_USER=salinopolis
+      - MYSQL_PASSWORD=salinopolis
+
+  apache-salinopolis:
+    image: ambientum/php:7.0-apache
+    container_name: apache-salinopolis
+    volumes:
+      - .:/var/www/app
+    ports:
+      - "8092:8080"
+    links:
+      - mysql-salinopolis
